@@ -48,7 +48,7 @@ if ! which wg-quick > /dev/null 2>&1; then
 
 fi
 
-CONFIG_BASE64="$1"
+CONFIG_BASE64=$(cat)
 
 CONFIG_DIR=$(mktemp -d)
 
