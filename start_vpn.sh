@@ -4,12 +4,15 @@
 # initializes the wireguard interface for haxagon 
 # it downloads wireguard if it can't find it and if it can install it
 
-echo $1
-
-
 if [ $(id -u) -ne 0 ]; then
     echo "Script must be run as root"
     exit 1
+fi
+
+if [ $# -ne 1 ]; then
+	echo "No wg config provided"
+	echo "Usage: ./start_vpn.sh \$BASE64_WGCONFIG"
+	exit 1
 fi
 
 DISTRO=$(cat /etc/os-release | grep ^ID= | cut -d = -f 2 | tr -d \")
