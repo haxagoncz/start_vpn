@@ -4,6 +4,9 @@
 # initializes the wireguard interface for haxagon 
 # it downloads wireguard if it can't find it and if it can install it
 
+echo $1
+
+
 if [ $(id -u) -ne 0 ]; then
     echo "Script must be run as root"
     exit 1
@@ -48,7 +51,7 @@ if ! which wg-quick > /dev/null 2>&1; then
     
 fi
 
-CONFIG_BASE64=`cat`
+CONFIG_BASE64=$1
 
 CONFIG_DIR=$(mktemp -d)
 
