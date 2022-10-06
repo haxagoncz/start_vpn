@@ -60,6 +60,10 @@ CONFIG_DIR=$(mktemp -d)
 
 echo "$CONFIG_BASE64" | base64 -d > "$CONFIG_DIR"/haxagon.conf
 
+if ip a | grep haxagon 2>&1 > /dev/null; then
+    ip link del haxagon 2>&1 > /dev/null
+fi
+
 wg-quick up ${CONFIG_DIR}/haxagon.conf
 
 rm ${CONFIG_DIR}/haxagon.conf
