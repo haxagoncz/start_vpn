@@ -67,5 +67,9 @@ wg-quick up ${CONFIG_DIR}/haxagon.conf
 
 rm ${CONFIG_DIR}/haxagon.conf
 
+mkdir -p /usr/local/etc/wireguard /etc/wireguard
+
+echo "" | tee /usr/local/etc/wireguard/haxagon.conf > /etc/wireguard/haxagon.conf
+
 echo
-echo "Use: 'ip link del haxagon' to turn off vpn"
+echo "Use: 'wg-quick down haxagon' to turn off vpn"
