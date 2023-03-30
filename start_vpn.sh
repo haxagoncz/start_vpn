@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # This script expects a valid wireguard config to be piped through stdin
-# initializes the wireguard interface for haxagon 
+# initializes the wireguard interface for haxagon
 # it downloads wireguard if it can't find it and if it can install it
 
 if [ $(id -u) -ne 0 ]; then
@@ -15,9 +15,8 @@ if [ $# -ne 1 ]; then
 	exit 1
 fi
 
-DISTRO=$(cat /etc/os-release | grep ^ID= | cut -d = -f 2 | tr -d \")
-
 if ! which wg-quick > /dev/null 2>&1; then
+    DISTRO=$(cat /etc/os-release | grep ^ID= | cut -d = -f 2 | tr -d \")
     
     case $DISTRO in
         
@@ -45,7 +44,7 @@ if ! which wg-quick > /dev/null 2>&1; then
         ;;
         
         *)
-            echo "This script doesn't support your distro, please install Wireguard manually"
+            echo "This script doesn't support automatic install for your distro, please install Wireguard manually"
             echo "https://www.wireguard.com/install/"
             exit 1
         ;;
