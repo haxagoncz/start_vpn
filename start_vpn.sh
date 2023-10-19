@@ -8,7 +8,6 @@ if [ $(id -u) -ne 0 ]; then
     echo "Script must be run as root"
     exit 1
 fi
-
 if [ $# -ne 1 ]; then
 	echo "No wg config provided"
 	echo "Usage: ./start_vpn.sh \$BASE64_WGCONFIG"
@@ -17,7 +16,6 @@ fi
 
 if ! which wg-quick > /dev/null 2>&1; then
     DISTRO=$(cat /etc/os-release | grep ^ID= | cut -d = -f 2 | tr -d \")
-    
     case $DISTRO in
         
         manjaro | arch)
@@ -42,7 +40,11 @@ if ! which wg-quick > /dev/null 2>&1; then
             yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm https://www.elrepo.org/elrepo-release-8.el8.elrepo.noarch.rpm -y
             yum install kmod-wireguard wireguard-tools  -y
         ;;
-        
+	gentoo)
+	   touch /etc/portage/package.use/wireguard
+	   echo "net-vpn/wireguard-tools wg-quick" > /etc/portage/package.use/wireguard
+	   emerge --verbose net-vpn/wireguard-tools
+        ;;
         *)
             echo "This script doesn't support automatic install for your distro, please install Wireguard manually"
             echo "https://www.wireguard.com/install/"
@@ -53,10 +55,11 @@ if ! which wg-quick > /dev/null 2>&1; then
     
 fi
 
-CONFIG_BASE64=$1
+CONFIG_BASE64="$1"
 
 CONFIG_DIR=$(mktemp -d)
 
+echo "CONFIG_BASE64"
 echo "$CONFIG_BASE64" | base64 -d > "$CONFIG_DIR"/haxagon.conf
 
 if ip a | grep haxagon 2>&1 > /dev/null; then
