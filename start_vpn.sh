@@ -41,8 +41,6 @@ if ! which wg-quick > /dev/null 2>&1; then
             yum install kmod-wireguard wireguard-tools  -y
         ;;
 	gentoo)
-	   touch /etc/portage/package.use/wireguard
-	   echo "net-vpn/wireguard-tools wg-quick" > /etc/portage/package.use/wireguard
 	   emerge --verbose net-vpn/wireguard-tools
         ;;
         *)
@@ -59,7 +57,6 @@ CONFIG_BASE64="$1"
 
 CONFIG_DIR=$(mktemp -d)
 
-echo "CONFIG_BASE64"
 echo "$CONFIG_BASE64" | base64 -d > "$CONFIG_DIR"/haxagon.conf
 
 if ip a | grep haxagon 2>&1 > /dev/null; then
